@@ -1,0 +1,17 @@
+version: '3.7'
+
+services: 
+  blockchain_nodejs_container:
+    build: .
+    ports: 
+        - 8080:8000
+    networks: 
+      - blockchain_nodejs_network
+    volumes:
+      - ./:/usr/app
+      - ./node_modules/:/usr/app/node_modules
+    command: npm run start
+      
+networks:
+  blockchain_nodejs_network:
+    external: true
