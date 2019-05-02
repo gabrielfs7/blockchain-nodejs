@@ -32,3 +32,8 @@ docker-compose up --build -d
 ### Smart contracts
 
 ...
+
+### Nonce
+
+Property of a **Block** that _MUST_ change while `mining`. The `nonce` changes, so the Block **Hash** can change and we can mine it.
+
