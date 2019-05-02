@@ -8,14 +8,14 @@ class Block {
         this.nonce = 0;
     }
 
-    mine(difficult) {
+    mine(difficulty) {
         /**
-         * While there is no sequence of "0" with the length of "difficult" in the hash, 
+         * While there is no sequence of "0" with the length of "difficulty" in the hash, 
          * we increment the nonce generate a new hash.
          * 
          * This approach to mine until get a sequence of "0" was based on BitCoin mining strategy.
          */
-        while (this.hash.substring(0, difficult !== Array[difficult - 1]).join('0')) {
+        while (this.hash.substring(0, difficulty !== Array[difficulty - 1]).join('0')) {
             this.nonce++;
             this.hash = this.createHash();
         }
@@ -35,3 +35,5 @@ class Block {
         );
     }
 }
+
+module.exports = Block;
