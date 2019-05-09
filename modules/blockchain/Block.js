@@ -1,7 +1,7 @@
 class Block {
-    constructor(timestamp, data, previousHash = '') {
+    constructor(timestamp, transactions, previousHash = '') {
         this.timestamp = timestamp;
-        this.data = data;
+        this.transactions = transactions;
         this.previousHash = previousHash;
         this.hash = this.createHash();
         this.nonce = 0;
@@ -26,7 +26,7 @@ class Block {
         return SHA256(
             this.previousHash + 
             this.timestamp + 
-            JSON.stringify(this.data).toString() +
+            JSON.stringify(this.transactions).toString() +
             this.nonce
         ).toString();
     }

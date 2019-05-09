@@ -3,6 +3,7 @@ class Blockchain {
         this.chain = [this.generateGenesisBlock()];
         this.difficulty = 2;
         this.miningReward = 0.01;
+        this.pendingTransactions = [];
     }
 
     generateGenesisBlock()
@@ -13,7 +14,6 @@ class Blockchain {
          * This is the initial block in the Blockchain.
          */
         return new Block(
-            0,
             Date.now().toLocaleString(),
             'Genesis Block',
             '0'
@@ -24,18 +24,73 @@ class Blockchain {
         return this.chain[this.chain.length - 1];
     }
 
-    addBlock(data) {
+    addTransaction(fromAddress, toAddress, amount) {
+        let Transaction = require('./Transaction');
+
+        this.pendingTransactions.push(
+            new Transaction(
+                fromAddress, 
+                toAddress, 
+                amount
+            )
+        );
+    }
+
+    doMining(miningRewardAddress) {
         let Block = require('./Block');
 
         let newBlock = new Block(
             Date.now().toLocaleString(),
-            data,
+            this.pendingTransactions,
             this.getLastBlock().hash
         );
 
         newBlock.mine(this.difficulty);
 
         this.chain.push(newBlock);
+
+        /**
+         * Add transaction to pay the mining reward
+         */
+        this.pendingTransactions = [];
+        this.addTransaction(
+            null, 
+            miningRewardAddress, 
+            this.miningReward
+        );
+    }
+
+    /**
+     * Check all the Blockchain blocks/transactions and calculate current balance of an address.
+     * 
+     * @param string address 
+     */
+    getAddressBalance(address)
+    {
+        let addressBalance = 0;
+
+        for (const block of this.chain) {
+            for (const transaction of block.transactions) {
+                let isFromAddress = transaction.fromAddress == address;
+                let isToAddress = transaction.toAddress == address;
+
+                if (!isFromAddress && !isToAddress) {
+                    continue;
+                }
+
+                if (isFromAddress) {
+                    addressBalance -= transaction.amount;
+
+                    continue;
+                }
+                
+                if (isToAddress) {
+                    addressBalance += transaction.amount;
+                }
+            }
+        }
+
+        return addressBalance;
     }
 
     isValid() {
