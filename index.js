@@ -12,35 +12,37 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 
-    let Block = require('./modules/blockchain/Block');
     let Blockchain = require('./modules/blockchain/Blockchain');
 
     let blockchain = new Blockchain();
 
-    blockchain.addBlock({ amount: 4 });
-    blockchain.addBlock({ amount: 8 });
-    blockchain.addBlock({ amount: 6 });
+    blockchain.addTransaction(null, 'user1', 100.00 );
+    blockchain.addTransaction('user1', 'user2', 50.00 );
+    blockchain.addTransaction('user1', 'user3', 40.00 );
+    blockchain.doMining('user3');
 
     /**
-     * Lets check the blocks hash
+     * Now user3 will receive a Mining Reward
      */
-    console.log('\nBlock Genesis hash ' + blockchain.chain[0].hash);
-    console.log('Block 1 hash ' + blockchain.chain[1].hash);
-    console.log('Block 2 hash ' + blockchain.chain[2].hash);
-    console.log('Block 3 hash ' + blockchain.chain[3].hash);
+    blockchain.doMining('user1');
+
+    console.log('\nCheck balance after mining reward:\n');
+    console.log(' - Balance user1 ' + blockchain.getAddressBalance('user1'));
+    console.log(' - Balance user2 ' + blockchain.getAddressBalance('user2'));
+    console.log(' - Balance user3 (0.01 as reward): ' + blockchain.getAddressBalance('user3'));
 
     /**
      * The Blockchain was not changed, so it is valid
      */
-    console.log('\nIs Blockchain valid? ' + blockchain.isValid());
+    console.log('\nTrying to hack the Blockchain:\n');
+    console.log(' - Is Blockchain valid? ' + blockchain.isValid());
 
     /**
      * If I change the block data the blockchain becomes invalid.
      * 
-     * For instance, I will update the transaction to 100!!!
+     * For instance, I will update the transaction amount to 1000!!!
      */
-    blockchain.chain[1].data = { amount: 100 };
-    console.log('\nBlock 1 hash updated ' + blockchain.chain[1].hash);
+    blockchain.chain[1].transactions[0].amount = 1000;
 
-    console.log('\nIs Blockchain valid? ' + blockchain.isValid());
+    console.log(' - Is Blockchain valid? ' + blockchain.isValid());
 });
