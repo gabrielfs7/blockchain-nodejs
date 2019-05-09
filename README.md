@@ -19,11 +19,11 @@ docker-compose up --build
 
 ### Block
 
-...
+It is a `record` in your Blockchain that is only valid if followed by a previous valid block in the chain. The Block contains the data you want to save, i.e. amount, time, sender, receiver, etc.
 
 ### Prof-of-Work
 
-...
+The Prof-of-work is what avoids the Blockchain to be `spammed` and `make difficult` for an attacker to **change a block's hash** and so for the consecutive blocks hashes (_what would make a valid chain_). For this, the Blockchain has the `Mining` mechanism.
 
 ### Mining
 
