@@ -8,7 +8,7 @@ You need to have Docker and DockerCompose in your machine.
 
 ```
 docker network create blockchain_nodejs_network
-docker-compose up --build -d
+docker-compose up --build
 ```
 
 ## Key Concepts
@@ -27,7 +27,8 @@ docker-compose up --build -d
 
 ### Mining
 
-...
+When you use the computational power to generate `block hashes` accordingly certain difficulty 
+level and increment the block's `nonce`, which will part of the block hash.
 
 ### Smart contracts
 
