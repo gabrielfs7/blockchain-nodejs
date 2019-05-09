@@ -24,11 +24,10 @@ class Blockchain {
         return this.chain[this.chain.length - 1];
     }
 
-    addBlock(index, data) {
+    addBlock(data) {
         let Block = require('./Block');
 
         let newBlock = new Block(
-            index,
             Date.now().toLocaleString(),
             data,
             this.getLastBlock().hash

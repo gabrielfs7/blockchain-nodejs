@@ -17,9 +17,9 @@ server.listen(port, hostname, () => {
 
     let blockchain = new Blockchain();
 
-    blockchain.addBlock(1, { amount: 4 });
-    blockchain.addBlock(2, { amount: 8 });
-    blockchain.addBlock(3, { amount: 6 });
+    blockchain.addBlock({ amount: 4 });
+    blockchain.addBlock({ amount: 8 });
+    blockchain.addBlock({ amount: 6 });
 
     /**
      * Lets check the blocks hash
