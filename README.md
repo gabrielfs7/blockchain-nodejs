@@ -30,6 +30,10 @@ The Prof-of-work is what avoids the Blockchain to be `spammed` and `make difficu
 When you use the computational power to generate `block hashes` accordingly certain difficulty 
 level and increment the block's `nonce`, which will part of the block hash.
 
+### Mining Reward
+
+Blockchains like `Bitcoin` are peer-to-peer networks, so mining coins to the Blockchain has a cost that is paid through `Mining Reward`, which means receive `coins` as reward for mining.
+
 ### Smart contracts
 
 ...

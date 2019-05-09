@@ -2,6 +2,7 @@ class Blockchain {
     constructor() {
         this.chain = [this.generateGenesisBlock()];
         this.difficulty = 2;
+        this.miningReward = 0.01;
     }
 
     generateGenesisBlock()
