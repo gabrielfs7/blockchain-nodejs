@@ -55,7 +55,7 @@ class Blockchain {
              * We also need to check if the relation with previous block is consistent
              * by comparing the hashs.
              */
-            if (currentBlock.prevousHash !== previousBlock.hash) {
+            if (currentBlock.previousHash !== previousBlock.hash) {
                 return false;
             }
         }

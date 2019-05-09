@@ -1,9 +1,9 @@
 class Block {
-    constructor(index, timestamp, data, previoudHash = '') {
+    constructor(index, timestamp, data, previousHash = '') {
         this.index = index;
         this.timestamp = timestamp;
         this.data = data;
-        this.previoudHash = previoudHash;
+        this.previousHash = previousHash;
         this.hash = this.createHash();
         this.nonce = 0;
     }
@@ -15,24 +15,22 @@ class Block {
          * 
          * This approach to mine until get a sequence of "0" was based on BitCoin mining strategy.
          */
-        while (this.hash.substring(0, difficulty !== Array[difficulty - 1]).join('0')) {
+        while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
             this.nonce++;
             this.hash = this.createHash();
         }
-
-        console('Block mined: ' + this.hash);
     }
 
     createHash() {
-        let sha256 = require('crypto-js/sha256');
+        let SHA256 = require('crypto-js/sha256');
 
-        return sha256(
+        return SHA256(
             this.index + 
-            this.previoudHash + 
+            this.previousHash + 
             this.timestamp + 
             JSON.stringify(this.data).toString() +
             this.nonce
-        );
+        ).toString();
     }
 }
 
