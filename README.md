@@ -35,7 +35,7 @@ It is a `record` in your Blockchain that is only valid if followed by a previous
 
 In order to transfer or receive money in a Blockchain network, you need to have a `wallet` or an `address`. This is basically your account. If you want to `mine` or `receive` money, you give the another user your `public key`. If you want to give money for another `address`, then you need to `sign the transaction` with your `private key`.
 
-You can check the (TRON accounts)[https://tronscan.org/#/blockchain/accounts] as example to see wallets/addresses.
+You can check the [TRON accounts](https://tronscan.org/#/blockchain/accounts) as example to see wallets/addresses.
 
 ### Prof-of-Work
 
