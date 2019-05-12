@@ -52,9 +52,15 @@ Blockchains like `Bitcoin` are peer-to-peer networks, so mining coins to the Blo
 
 ### Smart contracts
 
-They are like contracts in the real word, but `digital`, `immutable` and stored in a blockchain.
+They are like contracts in the real world, but `digital`, `immutable` and stored in a blockchain.
 
-Basically, they are `programs` that `hold the money` from wallets and transfer it to another wallet when the contract is  concluded. In case of contracts fails, it returns the money to original wallets.
+Basically, they are `computer programs` that `hold the money` from wallets and transfer to another's when the contract rules are  checked. In case of contract fails, it returns the money to original wallets.
+
+The main characteristics of smart contracts are:
+
+- They define rules.
+- They check these rules.
+- And they are self-executables.
 
 You can check the [TRON contracts](https://tronscan.org/#/contracts/contracts) as example.
 
