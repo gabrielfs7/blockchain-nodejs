@@ -11,6 +11,14 @@ docker network create blockchain_nodejs_network
 docker-compose up --build
 ```
 
+## Generate Public and Private keys
+
+To `sign the transactions` in the Blockchain you first need to generate a key pair:
+
+```
+node keygen.js
+```
+
 ## Key Concepts
 
 ### Blockchain
