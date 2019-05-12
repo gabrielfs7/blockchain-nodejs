@@ -10,11 +10,7 @@ class Transaction
     }
 
     createHash() {
-        return SHA256(
-            this.fromAddress + 
-            this.toAddress + 
-            this.amount
-        ).toString()
+        return SHA256(this.fromAddress + this.toAddress + this.amount).toString();
     }
 
     sign(keyPair) {

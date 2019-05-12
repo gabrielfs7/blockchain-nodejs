@@ -33,20 +33,27 @@ server.listen(port, hostname, () => {
 
     let blockchain = new Blockchain();
 
+    /**
+     * We set user3 to mining the transactions
+     */
     blockchain.addMiningTransaction(user1PublicKey, 100.00 );
-    blockchain.addTransaction(user1KeyPair, user1PublicKey, user2PublicKey, 50.00 );
-    blockchain.addTransaction(user1KeyPair, user1PublicKey, user3PublicKey, 40.00 );
+    blockchain.addTransaction(user1KeyPair, user2PublicKey, 50.00 );
+    blockchain.addTransaction(user1KeyPair, user3PublicKey, 40.00 );
+    blockchain.doMining(user3PublicKey);
+
+    blockchain.addTransaction(user2KeyPair, user3PublicKey, 20.00 );
+    blockchain.addTransaction(user3KeyPair, user1PublicKey, 10.00 );
     blockchain.doMining(user3PublicKey);
 
     /**
-     * Now user3 will receive a Mining Reward
+     * Now user3 receives all pendings Mining Rewards
      */
     blockchain.doMining(user3PublicKey);
 
     console.log('\nCheck balance after mining reward:\n');
     console.log(' - Balance user1 ' + blockchain.getAddressBalance(user1PublicKey));
     console.log(' - Balance user2 ' + blockchain.getAddressBalance(user2PublicKey));
-    console.log(' - Balance user3 (+0.01 as reward) ' + blockchain.getAddressBalance(user3PublicKey));
+    console.log(' - Balance user3 ' + blockchain.getAddressBalance(user3PublicKey));
 
     /**
      * The Blockchain was not changed, so it is valid

@@ -32,7 +32,7 @@ class Block {
     }
 
     validateTransactions() {
-        for (const transaction in this.transactions) {
+        for (const transaction of this.transactions) {
             transaction.validateSignature();
         }
     }

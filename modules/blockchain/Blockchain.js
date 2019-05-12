@@ -3,22 +3,13 @@ let Block = require('./Block');
 
 class Blockchain {
     constructor() {
-        this.chain = [this.generateGenesisBlock()];
+        /**
+         * The Genesis Block is the initial block in whole the Blockchain.
+         */
+        this.chain = [new Block(Date.now().toLocaleString(), 'Genesis Block', '0')];
         this.difficulty = 2;
         this.miningReward = 0.01;
         this.pendingTransactions = [];
-    }
-
-    generateGenesisBlock()
-    {
-        /**
-         * This is the initial block in the Blockchain.
-         */
-        return new Block(
-            Date.now().toLocaleString(),
-            'Genesis Block',
-            '0'
-        );
     }
 
     getLastBlock() {
@@ -30,18 +21,16 @@ class Blockchain {
             throw new Error('Field toAddress must be provided');
         }
 
-        let transaction = new Transaction(
-            null,
-            toAddress, 
-            amount
-        );
+        let transaction = new Transaction(null, toAddress, amount);
 
         this.pendingTransactions.push(transaction);
     }
 
-    addTransaction(fromAddressKeyPair, fromAddress, toAddress, amount) {
-        if (fromAddress && toAddress && (fromAddress.length == 0 || toAddress.length == 0)) {
-            throw new Error('Fields fromAddess and toAddress must be provided');
+    addTransaction(fromAddressKeyPair, toAddress, amount) {
+        const fromAddress = fromAddressKeyPair.getPublic('hex');
+
+        if (toAddress.length == 0) {
+            throw new Error('Field toAddress must be provided');
         }
 
         if (fromAddress == toAddress) {
@@ -57,11 +46,7 @@ class Blockchain {
     }
 
     doMining(miningRewardAddress) {
-        let newBlock = new Block(
-            Date.now().toLocaleString(),
-            this.pendingTransactions,
-            this.getLastBlock().hash
-        );
+        let newBlock = new Block(Date.now().toLocaleString(), this.pendingTransactions, this.getLastBlock().hash);
 
         newBlock.mine(this.difficulty);
 
@@ -103,7 +88,7 @@ class Blockchain {
             }
         }
 
-        return addressBalance;
+        return addressBalance.toFixed(2);
     }
 
     isValid() {
@@ -114,7 +99,6 @@ class Blockchain {
             try {
                 currentBlock.validateTransactions();
             } catch (err) {
-
                 return false;
             }
 
