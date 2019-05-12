@@ -1,3 +1,6 @@
+let SHA256 = require('crypto-js/sha256');
+let Keygen = require('./KeyGen');
+
 class Transaction 
 {
     constructor(fromAddress, toAddress, amount) {
@@ -6,9 +9,7 @@ class Transaction
         this.amount = amount;
     }
 
-    generateHash() {
-        const SHA256 = require('crypto-js/sha256');
-
+    createHash() {
         return SHA256(
             this.fromAddress + 
             this.toAddress + 
@@ -21,7 +22,7 @@ class Transaction
             throw new Error('Invalid public key to sign');
         }
 
-        const hash = this.generateHash();
+        const hash = this.createHash();
         const sign = keyPair.sign(hash, 'base64');
 
         this.signature = sign.toDER('hex');
@@ -39,10 +40,9 @@ class Transaction
             throw new Error('Invalid transaction signature');
         }
 
-        const Keygen = require('./KeyGen');
         const keygen = new Keygen();
 
-        if (!keygen.verify(this.fromAddress, this.generateHash(), this.signature)) {
+        if (!keygen.verify(this.fromAddress, this.createHash(), this.signature)) {
             throw new Error('Invalid signature');
         }
     }

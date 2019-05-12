@@ -1,3 +1,5 @@
+let SHA256 = require('crypto-js/sha256');
+
 class Block {
     constructor(timestamp, transactions, previousHash = '') {
         this.timestamp = timestamp;
@@ -21,14 +23,18 @@ class Block {
     }
 
     createHash() {
-        let SHA256 = require('crypto-js/sha256');
-
         return SHA256(
             this.previousHash + 
             this.timestamp + 
             JSON.stringify(this.transactions).toString() +
             this.nonce
         ).toString();
+    }
+
+    validateTransactions() {
+        for (const transaction in this.transactions) {
+            transaction.validateSignature();
+        }
     }
 }
 

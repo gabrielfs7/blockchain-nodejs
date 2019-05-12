@@ -1,12 +1,17 @@
+const EC = require('elliptic').ec;
+
 class Keygen 
 {
     constructor() {
-        const EC = require('elliptic').ec;
         this.ec = new EC('secp256k1');
     }
 
     generateKeys() {
         return this.ec.genKeyPair();
+    }
+
+    getKeyPairFromPrivateKey(privateKey) {
+        return this.ec.keyFromPrivate(privateKey);
     }
 
     verify(fromAddress, hash, signature) {

@@ -1,3 +1,6 @@
+let Transaction = require('./Transaction');
+let Block = require('./Block');
+
 class Blockchain {
     constructor() {
         this.chain = [this.generateGenesisBlock()];
@@ -8,8 +11,6 @@ class Blockchain {
 
     generateGenesisBlock()
     {
-        let Block = require('./Block');
-
         /**
          * This is the initial block in the Blockchain.
          */
@@ -24,21 +25,38 @@ class Blockchain {
         return this.chain[this.chain.length - 1];
     }
 
-    addTransaction(fromAddress, toAddress, amount) {
-        let Transaction = require('./Transaction');
+    addMiningTransaction(toAddress, amount) {
+        if (!toAddress || toAddress.length == 0) {
+            throw new Error('Field toAddress must be provided');
+        }
 
-        this.pendingTransactions.push(
-            new Transaction(
-                fromAddress, 
-                toAddress, 
-                amount
-            )
+        let transaction = new Transaction(
+            null,
+            toAddress, 
+            amount
         );
+
+        this.pendingTransactions.push(transaction);
+    }
+
+    addTransaction(fromAddressKeyPair, fromAddress, toAddress, amount) {
+        if (fromAddress && toAddress && (fromAddress.length == 0 || toAddress.length == 0)) {
+            throw new Error('Fields fromAddess and toAddress must be provided');
+        }
+
+        if (fromAddress == toAddress) {
+            throw new Error('Wallets cannot give money to themselves');
+        }
+
+        let transaction = new Transaction(fromAddress, toAddress, amount);
+
+        transaction.sign(fromAddressKeyPair);
+        transaction.validateSignature();
+
+        this.pendingTransactions.push(transaction);
     }
 
     doMining(miningRewardAddress) {
-        let Block = require('./Block');
-
         let newBlock = new Block(
             Date.now().toLocaleString(),
             this.pendingTransactions,
@@ -47,17 +65,12 @@ class Blockchain {
 
         newBlock.mine(this.difficulty);
 
-        this.chain.push(newBlock);
-
         /**
          * Add transaction to pay the mining reward
          */
+        this.chain.push(newBlock);
         this.pendingTransactions = [];
-        this.addTransaction(
-            null, 
-            miningRewardAddress, 
-            this.miningReward
-        );
+        this.addMiningTransaction(miningRewardAddress, this.miningReward);
     }
 
     /**
@@ -97,6 +110,13 @@ class Blockchain {
         for (let i = 1; i < this.chain.length; i++) {
             const currentBlock = this.chain[i];
             const previousBlock = this.chain[i - 1];
+
+            try {
+                currentBlock.validateTransactions();
+            } catch (err) {
+
+                return false;
+            }
 
             /**
              * To guaranty the integrity of the block, we check if it was changed 
