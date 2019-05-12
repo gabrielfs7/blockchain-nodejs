@@ -23,7 +23,9 @@ node keygen.js
 
 ### Blockchain
 
-...
+A `ditributed database` which stores `perpetuous transactions` (cannot be changed) records where the participans of the network (`miners`) can validate and process the transactions. 
+
+The `descentralized` consensus along with transaction signatures and the fact that the blocks integrity is validated in cascaded using cryptography makes the technology very safe.
 
 ### Block
 
