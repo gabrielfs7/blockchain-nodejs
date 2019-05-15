@@ -1,5 +1,5 @@
-const Blockchain = require('./modules/blockchain/Blockchain');
-const Keygen = require('./modules/blockchain/Keygen');
+const Blockchain = require('./backend/modules/blockchain/Blockchain');
+const Keygen = require('./backend/modules/blockchain/Keygen');
 const http = require('http');
 
 const hostname = '127.0.0.1';
